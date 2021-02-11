@@ -342,7 +342,26 @@ class MyScene extends Phaser.Scene {
 		// Make enemy fire
 		this.enemyFire(this.enemy, this.player, this.time, this);
 		
+		this.player.setAccelerationX(0);
+		this.player.setAccelerationY(0);
 
+		if (this.moveKeys.up.isDown)
+		{
+			this.player.setAccelerationY(-300);
+		}
+		else if (this.moveKeys.down.isDown)
+		{
+			this.player.setAccelerationY(300);
+		}
+		
+		if (this.moveKeys.left.isDown)
+		{
+			this.player.setAccelerationX(-300);
+		}
+		else if (this.moveKeys.right.isDown)
+		{
+			this.player.setAccelerationX(300);
+		}
 		
 		
     }
