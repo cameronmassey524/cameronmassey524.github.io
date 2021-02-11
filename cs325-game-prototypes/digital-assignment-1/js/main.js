@@ -334,7 +334,7 @@ class MyScene extends Phaser.Scene {
 		this.reticle.body.velocity.y = this.player.body.velocity.y;
 
 		// Constrain velocity of player
-		this.constrainVelocity(this.player, 500);
+		this.constrainVelocity(this.player, 650);
 
 		// Constrain position of constrainReticle
 		this.constrainReticle(this.reticle);
@@ -344,24 +344,52 @@ class MyScene extends Phaser.Scene {
 		
 		this.player.setAccelerationX(0);
 		this.player.setAccelerationY(0);
+		this.reticle.setAccelerationX(0);
+		this.reticle.setAccelerationY(0);
 
 		if (this.moveKeys.up.isDown)
 		{
-			this.player.setAccelerationY(-300);
+			this.player.setAccelerationY(-7000);
+			this.reticle.setAccelerationY(-7000);
 		}
 		else if (this.moveKeys.down.isDown)
 		{
-			this.player.setAccelerationY(300);
+			this.player.setAccelerationY(7000);
+			this.reticle.setAccelerationY(7000);
 		}
 		
 		if (this.moveKeys.left.isDown)
 		{
-			this.player.setAccelerationX(-300);
+			this.player.setAccelerationX(-7000);
+			this.reticle.setAccelerationX(-7000);
 		}
 		else if (this.moveKeys.right.isDown)
 		{
-			this.player.setAccelerationX(300);
+			this.player.setAccelerationX(7000);
+			this.reticle.setAccelerationX(7000);
 		}
+		
+/* 		if (this.moveKeys.up.isDown)
+		{
+			this.player.y-=3;
+			this.reticle.y-=3;
+		}
+		else if (this.moveKeys.down.isDown)
+		{
+			this.player.y+=3;
+			this.reticle.y+=3;
+		}
+		
+		if (this.moveKeys.left.isDown)
+		{
+			this.player.x-=3;
+			this.reticle.x-=3;
+		}
+		else if (this.moveKeys.right.isDown)
+		{
+			this.player.x+=3;
+			this.reticle.x+=3;
+		} */
 		
 		
     }
