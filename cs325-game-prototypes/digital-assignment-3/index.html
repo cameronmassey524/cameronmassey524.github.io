@@ -23,55 +23,63 @@ body
 
 <ul>
 <li><strong>Originality:</strong>
-What is original about your game?
+Rather than the player character being the object of interest, it is a ball which you can hit around with different attacks. Coins are gathered by the ball, and the level is won when the ball reaches the end goal.
 </li>
 
 <li><strong>Technical Merit:</strong>
-What is interesting about your game technology?
+Originally I was planning to do by-pixel collision for hitbox animations, so the player sprite coincides with a hitter sprite which provides the hitboxes for each move in red pixels. Unfortunately I did not know enough about phaser to complete this so the hit detection is really broken (dont even know why)
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
-What did you learn from this prototype?
-What was the easiest or hardest part of making it?
+From this I learned how to use spritesheets for animation. The hardest part by far is collision/physics. Thats why it still doesnt work. I have underestimated the amount of phaser knowledge i must have mastered to complete this task.
 </li>
 
 <li><strong>Prototype Assets:</strong>
 Did you make your prototype assets from scratch? Did you borrow them? Cite your sources here.
+https://phaser.io/examples/v3/view/animation/create-animation-from-sprite-sheet  
+https://phaser.io/examples/v3/view/games/firstgame/part9
+
+character assets: https://github.com/photonstorm/phaser3-examples/tree/master/public/assets/animations
+
+other assets: https://github.com/photonstorm/phaser3-examples/tree/master/public/assets/textures
+
+Hitbox animation is custom, modeled after the character.
+
 <ul>
 <li>Bouncing Phaser image: <a href="https://phaser.io/download/logo">Phaser logo</a></li>
 </ul>
 </li>
 
 <li><strong>Prototype Closest Other Game:</strong>
-Which other game most closely resembles your game? If you are borrowing code from a Phaser Example, you must say so here. If you borrow code from elsewhere, you must say so here.
+https://phaser.io/examples/v3/view/games/firstgame/part9
 </li>
 
 <li><strong>High Concept:</strong>
-A one-sentence summary of your game.
+A platformer where the ball must be kicked or punched around the level to complete objectives.
 </li>
 
 <li><strong>Theme:</strong>
-State which of the Storymatic themes you used.
+It was supposed to be contemplative, in that you would have to think about when and where you will use each attack to complete the objectives in as few moves as possible, or without letting the ball hit the ground.
 </li>
 
 <li><strong>Mandated Variety:</strong>
-State which input, randomness, genre, and play style you used in this prototype.
+I intended to include slight randomness in the trajectory of the ball after being hit, but I could not manage the collisions in time,
 </li>
 
 <li><strong>Prototype Goal:</strong>
-What game mechanic is this prototype evaluating?
+Using hitboxes and player velocity to determine the trajectory of a hit target.
 </li>
 
 <li><strong>Player Experience Goals:</strong>
-What experience do you want players to have when playing your game?
+Creative freedom in solving a puzzle, meaning there could be several solutions that could prioritize combo-count (without touching ground), completion time, or fewest hits.
 </li>
 
 <li><strong>Gameplay:</strong>
-A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.
+Player can jab, punch, kick, and perform an aerial kick. Each attack sends the ball at a different trajectory and velocity. Jump kick velocity is dependannt on player velocity as well.
 </li>
 
 <li><strong>Strategies:</strong>
-What player strategies do you expect will be effective at playing this game?
+Use weak moves to bounce the ball in to a position where you can hit it strongly in a more useful direction.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
@@ -80,11 +88,11 @@ How will the dramatic tension interact with the gameplay tension?
 </li>
 
 <li><strong>Target Audience:</strong>
-A single sentence that describes the demographic you're trying to reach.
+Anybody who like puzzle platformers, fighting games, and/or speedrunning perhaps.
 </li>
 
 <li><strong>Play Time:</strong>
-How long does your game take to play?
+The play time of a level would largely be determined by the player, as it is up to them to solve the puzzle of getting the ball from start to finish using their characters moveset.
 </li>
 
 </ul>

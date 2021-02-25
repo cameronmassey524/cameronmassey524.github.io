@@ -40,15 +40,15 @@ class MyScene extends Phaser.Scene {
 	}
 	
     preload() {
-		this.load.spritesheet('brawler', '/digital-assignment-3/assets/animations/brawler48x48.png', { frameWidth: 48, frameHeight: 48 });
-		this.load.spritesheet('hitboxes', '/digital-assignment-3/assets/animations/hitboxes48x48.png', { frameWidth: 48, frameHeight: 48 });
-		this.load.image('grid', '/digital-assignment-3/assets/textures/grid-ps2.png');
+		this.load.spritesheet('brawler', 'assets/animations/brawler48x48.png', { frameWidth: 48, frameHeight: 48 });
+		this.load.spritesheet('hitboxes', 'assets/animations/hitboxes48x48.png', { frameWidth: 48, frameHeight: 48 });
+		this.load.image('grid', 'assets/textures/grid-ps2.png');
 		
 		//from firstgame part 9
-		this.load.image('sky', '/digital-assignment-3/assets/textures/sky.png');
-		this.load.image('ground', '/digital-assignment-3/assets/textures/platform.png');
-		this.load.image('star', '/digital-assignment-3/assets/textures/star.png');
-		this.load.image('bomb', '/digital-assignment-3/assets/textures/bomb.png');
+		this.load.image('sky', 'assets/textures/sky.png');
+		this.load.image('ground', 'assets/textures/platform.png');
+		this.load.image('star', 'assets/textures/star.png');
+		this.load.image('bomb', 'assets/textures/bomb.png');
     }
     
     create()
