@@ -36,6 +36,9 @@ var config = {
 var player;
 var platforms;
 var ball;
+var rockets;
+var cells;
+var rails;
 
 
 var key_w;
@@ -294,6 +297,7 @@ function create ()
 	this.reticle.body.setAllowGravity(false);
 	
 	
+	
 	//physics groups for attacks
 	this.rockets = this.physics.add.group({ 
 	classType: Rocket, 
@@ -313,6 +317,11 @@ function create ()
 	allowGravity: false
 	});
 	
+	
+	
+	//collision rules
+	//this.physics.add.overlap(this.rockets, this.platforms);
+	//this.physics.add.collider(rockets, platforms);
 	
 	
 
@@ -487,11 +496,13 @@ function update ()
 			{
 				// Get rocket from rockets group
 				var rocket = this.rockets.get().setActive(true).setVisible(true);
+				rocket.body.setSize(20, 20, true);
+				//var rocket = Rocket.create();
 
 				if (rocket)
 				{
 					rocket.fire(this.player, this.reticle, this.time.now);
-					//this.physics.add.collider(this.ball, rocket, this.ballHitCallback);
+					this.physics.add.collider(rocket, platforms, function() {rocket.setActive(false);rocket.setVisible(false);});
 				}
 			}
 			
@@ -499,11 +510,13 @@ function update ()
 			{
 				// Get cell from cells group
 				var cell = this.cells.get().setActive(true).setVisible(true);
+				cell.body.setSize(20, 20, true);
+				cell.body.setOffset(10, 5);
 
 				if (cell)
 				{
 					cell.fire(this.player, this.reticle, this.time.now);
-					//this.physics.add.collider(this.ball, rocket, this.ballHitCallback);
+					this.physics.add.collider(cell, platforms, function() {cell.setActive(false);cell.setVisible(false);});
 				}
 
 			}
@@ -512,11 +525,12 @@ function update ()
 			{
 				// Get rail from rails group
 				var rail = this.rails.get().setActive(true).setVisible(true);
+				rail.body.setSize(10, 10);
 
 				if (rail)
 				{
 					rail.fire(this.player, this.reticle, this.time.now);
-					//this.physics.add.collider(this.ball, rocket, this.ballHitCallback);
+					this.physics.add.collider(rail, platforms, function() {rail.setActive(false);rail.setVisible(false);});
 				}
 			}
 			
