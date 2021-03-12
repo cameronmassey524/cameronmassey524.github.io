@@ -67,7 +67,7 @@ var Rail = new Phaser.Class({
 	function Rail (scene)
 	{
 		Phaser.GameObjects.Image.call(this, scene, 0, 0, 'rail');
-		this.speed = 10;
+		this.speed = 15;
 		this.born = 0;
 		this.direction = 0;
 		this.xSpeed = 0;
@@ -175,7 +175,7 @@ var Cell = new Phaser.Class({
 		this.x += this.xSpeed * delta;
 		this.y += this.ySpeed * delta;
 		this.born += delta;
-		if (this.born > 150)
+		if (this.born > 100)
 		{
 			this.setActive(false);
 			this.setVisible(false);
