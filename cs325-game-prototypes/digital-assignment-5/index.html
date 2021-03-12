@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>QuakeBall</title>
+<style>
+body
+{
+    color: #777;
+    font-family: "Avenir", Verdana, sans-serif;
+}
+#readme
+{
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+<div id="game"></div>
+<div id="readme">
+<h2>Your game title</h2>
+
+
+<ul>
+
+<li><strong>Controls:</strong>
+<br>Movement: WASD <br>
+Shoot: Left click<br>
+Equip rocket: Q<br>
+Equip energy beam: E<br>
+Equip quark cannon: R<br>
+</li>
+
+
+<li><strong>Originality:</strong>
+Rather than the player character being the object of interest, it is a ball which you can move around by using your characters tools/weapons. The level is completed when the ball reaches its end goal.
+</li>
+
+<li><strong>Technical Merit:</strong>
+I think the technical challenge that I will have overcome is creating a system for precise hit/collision detection to circumvent Phaser's arcade engine limitations, wherein collisions are limited to a sprites bounding box.
+</li>
+
+<li><strong>Prototype Postmortem:</strong>
+
+</li>
+
+<li><strong>Prototype Assets:</strong>
+Did you make your prototype assets from scratch? Did you borrow them? Cite your sources here.
+https://phaser.io/examples/v3/view/games/firstgame/part9
+
+
+other assets: https://github.com/photonstorm/phaser3-examples/tree/master/public/assets/textures
+
+
+<ul>
+<li>Bouncing Phaser image: <a href="https://phaser.io/download/logo">Phaser logo</a></li>
+</ul>
+</li>
+
+<li><strong>Prototype Closest Other Game:</strong>
+https://phaser.io/examples/v3/view/games/firstgame/part9
+I should mention that the weapons mechanics are heavily inspired "unholy trinity" weapons of the Id Software's "Quake" titles. I chose these weapons because they capture the three main mechanics of aiming in video games: Prediction(rockets), Tracking (energy beam/lightning gun in quake), and flick hitscans (Quark cannon/railgun in quake).
+</li>
+
+<li><strong>High Concept:</strong>
+Players must use weapons to maneuver an object to the end goal of the level. Resources will be limited, and players will have to think and experiment to complete the level.
+</li>
+
+<li><strong>Theme:</strong>
+It was supposed to be contemplative theme from assignment 3, as it is an iteration/rehash of its core mechanic. Players must develop their strategy before attempting the task or they will not succeed.
+</li>
+
+<li><strong>Mandated Variety:</strong>
+The movement of the ball will be somewhat physically based, so it is likely that the player will not be perfectly consistent with their aim every time, meaning they must be able to adjust to any inconsistencies on-the-fly. Precise timing and aim can mitigate the need for these adjustments.
+</li>
+
+<li><strong>Prototype Goal:</strong>
+Create a system of weapons which inflict physically based effect on targets.
+</li>
+
+<li><strong>Player Experience Goals:</strong>
+Game experience should be that of a puzzle game that requires some amount of technical skill to execute your strategy.
+</li>
+
+<li><strong>Gameplay:</strong>
+Player have three weapons/tools to help them get the ball to the goal. 
+The first weapon is a rocket, which can be leveraged for its projectile travel time and also its large explosion radius.
+The second weapon is an energy beam which will constantly push the ball while it is hitting it, but has limited range.
+The third weapon is the "quark cannon" which fires a light-speed (hitscan) "projectile" that knocks the ball in the direction it is hit. It is incredibly precise and fires instantly with no range limit, but you must allow it to cool down before firing again or changing weapons.
+</li>
+
+<li><strong>Strategies:</strong>
+I think that generally, a common strategy would be to launch a rocket at the ball, then guide it through the air by pushing it with the energy beam, and finally using the quark cannon for the final adjustment. Using the rocket first allows you to get into a more useful position and switch weapons while the rocket is traveling through the air. Following this with the energy beam gives you a constant way to manipulate the ball over a period of time.
+</li>
+
+<li><strong>Story/Setting/Premise:</strong>
+A paragraph about the world your game is set in and who the characters are. What makes the game world and its occupants unique and interesting? Do the tokens represent something? If the game has a backstory, mention it here. If the game is abstract, then say so.
+How will the dramatic tension interact with the gameplay tension?
+</li>
+
+<li><strong>Target Audience:</strong>
+The target audience is anyone who likes games that require a combination of analog technical skills and creative strategy to solve problems.
+</li>
+
+<li><strong>Play Time:</strong>
+The play time of a level would largely be determined by the player, as it is up to them to assess the puzzle and solve it using their resources and tools. It may take several attempts. On a perfect run, completing a level would only take a few seconds.
+</li>
+
+</ul>
+</div>
+
+<!-- main.js must come at the end since it expects the HTML to have been created. -->
+<script src="js/main.js" type="module"></script>
+</body>
+</html>
