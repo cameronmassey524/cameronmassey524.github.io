@@ -353,7 +353,7 @@ var SceneA = new Phaser.Class({
     create: function ()
     {
 		
-	var prompt = this.add.text(10, 10, 'Board size (Max:9, Quick:6):', { font: '32px Courier', fill: '#ffffff' });
+	var prompt = this.add.text(10, 10, 'Enter board size (Max:9, Quick:6):', { font: '32px Courier', fill: '#ffffff' });
 
 	var textEntry = this.add.text(10, 50, '', { font: '32px Courier', fill: '#ffff00' });
 
@@ -406,7 +406,7 @@ var SceneB = new Phaser.Class({
 	
 	
 	
-	var prompt = this.add.text(10, 10, 'Player 1 starting line (123...N):', { font: '32px Courier', fill: '#ffffff' });
+	var prompt = this.add.text(10, 10, 'Enter Player 1 starting line (123...N):', { font: '32px Courier', fill: '#ffffff' });
 
 	var textEntry = this.add.text(10, 50, '', { font: '32px Courier', fill: '#ffff00' });
 
@@ -456,7 +456,7 @@ var SceneC = new Phaser.Class({
     create: function ()
     {
 		
-	var prompt = this.add.text(10, 10, 'Player 2 starting line (123...N):', { font: '32px Courier', fill: '#ffffff' });
+	var prompt = this.add.text(10, 10, 'Enter Player 2 starting line (123...N):', { font: '32px Courier', fill: '#ffffff' });
 
 	var textEntry = this.add.text(10, 50, '', { font: '32px Courier', fill: '#ffff00' });
 
