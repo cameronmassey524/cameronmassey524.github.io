@@ -118,10 +118,6 @@ class Hud {
 		}
 	}
 	
-	update()
-	{
-	}
-	
 	set_p1_energy(x)
 	{
 		this.p1_energy = x;
@@ -216,9 +212,19 @@ class Tile {
 	  return target;
 
   }
+  
   attack(target)
   {
-	  [[this.strength],[target.strength]] = [[this.strength-target.strength],[target.strength-this.strength]];
+	  
+	  
+	  if ((this.strength + target.strength)==board_size)
+	  {
+		  target.strength = target.strength - this.strength; //Perform special attack
+	  }
+	  else //perform normal attack
+	  {
+		  [[this.strength],[target.strength]] = [[this.strength-target.strength],[target.strength-this.strength]];
+	  }
 	  
 	  if (this.strength <= 0)
 	  {
@@ -259,8 +265,10 @@ class Tile {
 	}
 	
 	var target = board.mat[t_row][t_col];
-	if ( (target.owner==0) && (selection.strength != 0) ) //Will move
+	if ( (target.owner==0)  ) //Will move
 	{
+		if (selection.strength == 0) {return;}
+		
 		//console.log(dir + " Move\n");
 		selection = selection.swap(target);
 		selection.move_penalty();

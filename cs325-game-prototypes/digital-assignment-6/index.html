@@ -24,11 +24,11 @@ body
 <ul>
 
 <li><strong>Notes:</strong> </br>
-1. Special Attacking has been saved for iteration. </br>
+1. Special Attacks happen if an the strengths of the attacker and defender equal N (the board size). The attacker takes no damage when attacking. </br>
 2. Move selected pieces using W-A-S-D </br>
 3. Attacking currently does not expend energy. This is a design choice to be tested. </br>
 4. The game currently allows you to select incorrect starting lines. If N=5, your starting line should be any combination of digits 1 through 5.</br>
-4.1 	Examples of legal starting lines for n-5: 12345, 54321, 15243, 13245.
+4.1 	Examples of legal starting lines for n=5: 12345, 54321, 15243, 13245.
 </li>
 
 <li><strong>Originality:</strong>
@@ -49,7 +49,9 @@ The hardest part was to develop the actual game rules for a player vs. player st
 Physical prototyping was challenging because there are many things which would not be realistic
 in a physical board game, but are made much easier by digitalization. At the end i believe I 
 created a game that is fun on paper, but much more enjoyable in digital form. I also learned how
-to implement game assets of dynamic, player defined scale.
+to implement game assets of dynamic, player defined scale. I also learned the hard way to learn phaser
+instead of trying to make everything myself. In hindsight there are much more simple ways to write this,
+had I correctly used the update function in the scene.
 </li>
 
 <li><strong>Prototype Assets:</strong>
