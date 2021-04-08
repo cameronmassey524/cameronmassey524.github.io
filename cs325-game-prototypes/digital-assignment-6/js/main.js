@@ -14,7 +14,7 @@ import "./phaser.js";
 var board_size;
 var p1_order;
 var p2_order;
-var turn;
+var turn = 1;
 var board;
 var selection = 0;
 var cursorKeys;
@@ -22,6 +22,28 @@ var hud;
 
 //class Pawn {
 //}
+
+function init_health(size)
+{
+	var total = 0;
+	for (var i=1; i<=size; ++i)
+	{
+		total += i;
+	}
+	return total;
+}
+
+function toggle_turn(turn)
+{
+	if (turn == 1)
+	{
+		turn == 2;
+	}
+	else if (turn == 2)
+	{
+		turn == 1;
+	}
+}
 
 function factorial(n)
 {
@@ -39,10 +61,10 @@ class Hud {
 		this.turn = 1;
 		this.p1_name = "Player1"
 		this.p1_energy = board_size;
-		this.p1_health = factorial(board_size);
+		this.p1_health = init_health(board_size);
 		this.p2_name = "Player2";
 		this.p2_energy = 0;
-		this.p2_health = factorial(board_size);
+		this.p2_health = init_health(board_size);
 		this.p1_name_label = scene.add.text(10, 10, this.p1_name, { font: '20px Courier', fill: '#ffffff' });
 		this.p1_energy_label = scene.add.text(10, 300, ("Energy: \n" + this.p1_energy), { font: '20px Courier', fill: '#ffffff' });
 		this.p1_health_label = scene.add.text(10, 500, ("Health: \n" + this.p1_health), { font: '20px Courier', fill: '#ffffff' });
@@ -51,32 +73,77 @@ class Hud {
 		this.p2_health_label = scene.add.text(710, 500, ("Health: \n" + this.p2_health), { font: '20px Courier', fill: '#ffffff' });
 	}
 	
+	manage_turns()
+	{
+		if ((this.turn == 1) && (this.p1_energy <= 0))
+		{
+			console.log("turn block 1 entered\n");
+			console.log("p1_energy: %d\n", this.p1_energy);
+
+			this.set_p2_energy(board_size);
+			selection.deselect();
+			selection = 0;
+			board.regen_board();
+			
+			this.turn = 2;
+			console.log("Turn changed to: %d\n", this.turn);
+		}
+		else if ((this.turn == 2) && (this.p2_energy <= 0))
+		{
+			console.log("turn block 2 entered\n");
+			console.log("p2_energy: %d\n", this.p2_energy);
+
+			this.set_p1_energy(board_size);
+			selection.deselect();
+			selection = 0;
+			board.regen_board();
+			
+			this.turn = 1;
+			console.log("Turn changed to: %d\n", this.turn);
+		}
+		board.calc_health();
+	}
+	
+	use_energy(player, amount)
+	{
+		if (player==1)
+		{
+			this.p1_energy -= amount;
+			this.p1_energy_label.setText("Energy: \n" + this.p1_energy);
+		}
+		if (player==2)
+		{
+			this.p2_energy -= amount;
+			this.p2_energy_label.setText("Energy: \n" + this.p2_energy);
+		}
+	}
+	
 	update()
 	{
 	}
 	
 	set_p1_energy(x)
 	{
-		p1_energy = x;
-		p1_energy_label.setText(("Energy: " + x));
+		this.p1_energy = x;
+		this.p1_energy_label.setText(("Energy: \n" + x));
 	}
 
 	set_p1_health(x)
 	{
-		p1_health = x;
-		p1_health_label.setText(("Health: " + x));
+		this.p1_health = x;
+		this.p1_health_label.setText(("Health: \n" + x));
 	}
 
 	set_p2_energy(x)
 	{
-		p2_energy = x;
-		p2_energy_label.setText(("Energy: " + x));
+		this.p2_energy = x;
+		this.p2_energy_label.setText(("Energy: \n" + x));
 	}
 
 	set_p2_health(x)
 	{
-		p2_health = x;
-		p2_health_label.setText(("Health: " + x));
+		this.p2_health = x;
+		this.p2_health_label.setText(("Health: \n" + x));
 	}
 	
 }
@@ -90,6 +157,43 @@ class Tile {
 	  this.circ = 0;
 	  this.text = 0;
 	  this.selected = 0;
+	  this.penalty = 0;
+  }
+  
+  eliminate()
+  {
+	  this.owner =  0;
+	  this.selected = 0;
+  }
+  
+  move_penalty()
+  {
+	  
+	  console.log("str before move: %d\n", this.strength);
+	  console.log("penalty before move: %d\n", this.penalty);
+	  this.strength = this.strength - 1;
+	  this.penalty = this.penalty + 1;
+	  console.log("str after move: %d\n", this.strength);
+	  console.log("penalty after move: %d\n", this.penalty);
+	  
+	  selection = this;
+	  
+	  board.calc_health();
+	  
+	  return;
+  }
+  
+  regen()
+  {
+	  console.log("Regening str " + this.strength + " by adding " + this.penalty);
+	  
+	  if (this.penalty == 0)
+	  {
+		  return;
+	  }
+	  this.strength += this.penalty;
+	  this.penalty = 0;
+	  board.calc_health();
   }
   
   deselect()
@@ -107,6 +211,7 @@ class Tile {
 	  [[this.strength],[target.strength]] =[[target.strength],[this.strength]];
 	  [[this.owner],[target.owner]] =[[target.owner],[this.owner]];
 	  [[this.selected],[target.selected]] =[[target.selected],[this.selected]];
+	  [[this.penalty],[target.penalty]] =[[target.penalty],[this.penalty]];
 	  //[[this], [target]] = [[target], [this]];
 	  return target;
 
@@ -117,18 +222,21 @@ class Tile {
 	  
 	  if (this.strength <= 0)
 	  {
-		  this.owner = 0;
-		  this.selected = 0;
+		  this.eliminate();
 	  }
+
 	  if (target.strength <= 0)
 	  {
-		  target.owner = 0;
+		  //target.owner = 0;
 		  //target.selected = 0;
+		  target.eliminate();
 	  }
+	  
+	  board.calc_health();
 
   }
   
-  act(dir)
+  act(dir, hud)
   {
 	
 	var t_col = selection.col; //target column starting point
@@ -151,24 +259,36 @@ class Tile {
 	}
 	
 	var target = board.mat[t_row][t_col];
-	if (target.owner==0) //Will move
+	if ( (target.owner==0) && (selection.strength != 0) ) //Will move
 	{
-		console.log(dir + " Move\n");
+		//console.log(dir + " Move\n");
 		selection = selection.swap(target);
+		selection.move_penalty();
+		//hud.set_p1_energy(hud.p1_energy - 1);
+		hud.use_energy(selection.owner, 1);
+
+		hud.manage_turns();
+		
 	}
 	else if (target.owner==selection.owner) //Teammate at destination
 	{
-		console.log("Blocked by teammate\n");
+		//console.log("Blocked by teammate\n");
 	}
 	else if ( (t_row >= board_size) || (t_col >= board_size) || (t_row<0) || (t_col<0)) //No more board space
 	{
-		console.log("Blocked by Edge\n");
+		//console.log("Blocked by Edge\n");
 	}
 	else //Attacking opponent's piece
 	{
-		console.log("Attacking opponent\n");
+		//console.log("Attacking opponent\n");
+		
 		selection.attack(target);
+		
+		hud.use_energy(selection.owner, 1);
+
+		hud.manage_turns();
 	}
+	board.calc_health();
   }
   
 }
@@ -198,30 +318,59 @@ class Board {
 			for (var col=0; col<size; ++col)
 			{
 				this.mat[row][col] = new Tile(col, row, 0, 0, 0);
-/* 				if (color_parity > 0) { mat[i][j].color = "0xbababa"; }
-				else { mat[i][j].color = "0x5c5c5c"; }
-				
- 				color_parity *= -1;
-				if (size%2==0)&&(row==size-1)
-				{
-					color_parity *= -1;
-				}  */
 			}
 		}
 		
 		for (var n=0; n<size; ++n)
 		{
-			//this.mat[0][n].strength = p1_order[n];
-			//this.mat[0][n].owner = 1;
-			//this.mat[size-1][n].strength = p2_order[n];
-			//this.mat[size-1][n].owner = 2;
 			
-			this.mat[n][0].strength = p1_order[n];
+			this.mat[n][0].strength = parseInt(p1_order[n]);
 			this.mat[n][0].owner = 1;
-			this.mat[n][size-1].strength = p2_order[n];
+			this.mat[n][size-1].strength = parseInt(p2_order[n]);
 			this.mat[n][size-1].owner = 2;
 		}
 	
+	}
+	
+	calc_health()
+	{
+		var total1 = 0;
+		var total2 = 0;
+		for (var i=0; i<this.size; ++i)
+		{
+			for (var j=0; j<this.size; ++j)
+			{
+				
+				if (this.mat[i][j].owner == 1)
+				{
+					total1 += this.mat[i][j].strength;
+				}
+				else if (this.mat[i][j].owner == 2)
+				{
+					total2 += this.mat[i][j].strength;
+				}
+				
+			}
+		}
+		
+		hud.set_p1_health(total1);
+		hud.set_p2_health(total2);
+	}
+	
+	regen_board()
+	{
+		for (var i=0; i<this.size; ++i)
+		{
+			for (var j=0; j<this.size; ++j)
+			{
+				
+				if (this.mat[i][j].owner == hud.turn)
+				{
+					this.mat[i][j].regen();
+				}
+				
+			}
+		}
 	}
 	
 	display(scene)
@@ -515,6 +664,7 @@ var SceneD = new Phaser.Class({
 		var key_right = this.input.keyboard.addKey('D');
 		var temp;
 		var target;
+		var clicked;
 
 		
 		var grid;
@@ -528,22 +678,32 @@ var SceneD = new Phaser.Class({
 
 			if ((selection.selected==1)) //deselect current (old) selection
 			{
-				//console.log("selection == %d\n", selection);
-				//console.log("selection.selected == %d\n", selection.selected);
 				selection.deselect();
+				selection = 0;
 			}
 			
-			//console.log('down');
-			//console.log("x: %d\ny: %d", pointer.x, pointer.y);
-			selection = board.click_to_tile(pointer.x, pointer.y);
-			console.log("Owner: %d\n", selection.owner);
-			console.log("Strength: " + selection.strength + "\n");
-			if (selection.owner == 0)
+
+			clicked = board.click_to_tile(pointer.x, pointer.y);
+			//console.log("Owner: %d\n", clicked.owner);
+			//console.log("Strength: " + clicked.strength + "\n");
+			console.log("Turn: " + hud.turn + "\n");
+			
+			if (clicked.owner == 0)
 			{
 				board.display(this);
 				return;
 			}
-			board.select_pawn(selection);
+			if ( (hud.turn == 1) && (clicked.owner == 1 ) )
+			{
+				selection = clicked;
+				board.select_pawn(selection);
+			}
+			else if ( (hud.turn == 2) && (clicked.owner == 2 ) )
+			{
+				selection = clicked;
+				board.select_pawn(selection);
+			}
+			
 			board.display(this);
 			
 
@@ -552,7 +712,7 @@ var SceneD = new Phaser.Class({
 		key_right.on('down', function(event) {
 			if ((selection.owner ==1)||(selection.owner==2)) 
 			{
-				selection.act('r');
+				selection.act('r', hud);
 				board.display(this);
 			}
 			
@@ -560,7 +720,7 @@ var SceneD = new Phaser.Class({
 		key_left.on('down', function(event) {
 			if ((selection.owner ==1)||(selection.owner==2)) 
 			{
-				selection.act('l');
+				selection.act('l', hud);
 				board.display(this);
 			}
 			
@@ -568,7 +728,7 @@ var SceneD = new Phaser.Class({
 		key_up.on('down', function(event) {
 			if ((selection.owner ==1)||(selection.owner==2)) 
 			{
-				selection.act('u');
+				selection.act('u', hud);
 				board.display(this);
 			}
 			
@@ -576,7 +736,7 @@ var SceneD = new Phaser.Class({
 		key_down.on('down', function(event) {
 			if ((selection.owner ==1)||(selection.owner==2)) 
 			{
-				selection.act('d');
+				selection.act('d', hud);
 				board.display(this);
 			}
 			
@@ -589,7 +749,7 @@ var SceneD = new Phaser.Class({
 	
 	update: function ()
 	{
-
+		//hud.manage_turns();
 	}
 
 });
