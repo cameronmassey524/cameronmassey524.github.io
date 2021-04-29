@@ -23,15 +23,23 @@ body
 
 <ul>
 
+<li><strong>Revisions from DA6:</strong> </br>
+1. Attacking now consumes energy.
+2. A new max_strength stat has been introduced. This helps players keep track of how much strength their piece will regenerate after the turn ends.
+3. Pawns are now eliminated only when the max_strength stat reaches 0. In this way, it can in some ways be seen as a health/defense stat for each pawn.
+</li>
+
 <li><strong>Notes:</strong> </br>
-1. Special Attacks happen if an the strengths of the attacker and defender equal N (the board size). The attacker takes no damage when attacking. </br>
+1. Special Attacks happen if an the strengths (NOT max_strengths) of the attacker and defender equal N (the board size). The attacker takes no damage when attacking. </br>
 2. Move selected pieces using W-A-S-D </br>
-3. Attacking does not expend energy. </br>
-4. For a starting line to be legal, it CANNOT contain: digits less than 1, digits greater than board size, or duplicate digits. </br>
-4.1		This means that your starting line will contain only one of each integer from 1 to board size (1 to "n", where "n" is your board size. Hence "N!"). </br>
-4.2 	Examples of legal starting lines for a board size (n) equal to 5: 12345, 54321, 15243, 13245.</br>
-4.3 	Examples of illegal starting lines for a board size (n) equal to 5: 123456, 1234, 12340, 12355, 12346.</br>
-4.4		The pre-game prompts cannot be completed until proper values are selected for each one. Reason for rejection is reported in console. </br>
+3. Attacking now *does* reduce energy. This change was made to make it harder to do several special attacks in the same turn. This is subject to change. </br>
+4. Pawns have a strength stat, and also a max_strength stat. When pawns fight, their current strengths will be subtracted from each other's max_strengths. A pawn is now eliminated when its max_strength reaches 0.</br>
+4.1		Display format of pawn stats is "strength / max_strength" .</br>
+5. For a starting line to be legal, it CANNOT contain: digits less than 1, digits greater than board size, or duplicate digits. </br>
+5.1		This means that your starting line will contain only one of each integer from 1 to board size (1 to "n", where "n" is your board size. Hence "N!"). </br>
+5.2 	Examples of legal starting lines for a board size (n) equal to 5: 12345, 54321, 15243, 13245.</br>
+5.3 	Examples of illegal starting lines for a board size (n) equal to 5: 123456, 1234, 12340, 12355, 12346.</br>
+5.4		The pre-game prompts cannot be completed until proper values are selected for each one. Reason for rejection is reported in console. </br>
 </li>
 
 <li><strong>Originality:</strong>
@@ -65,7 +73,8 @@ All graphics are geometry. There are no assets.
 </li>
 
 <li><strong>Prototype Closest Other Game:</strong>
-I think the game resembles a highly simplified chess (not quite as simple as checkers), combined with Blizzard's virtual card game Hearthstone.
+After revision, I think it definitely resembled Hearthstone more so than before. This is due to the inclusion of the max_strength stat, which functions somewhat like a defense stat in Hearhtstone.
+More specifically, it is like a Hearhtstone defense stat that is limited by the attack stat. In this way, it is different, and original.
 </li>
 
 <li><strong>High Concept:</strong>
@@ -85,11 +94,11 @@ I want players to experience a strategy game where memorizing openenings and mov
 </li>
 
 <li><strong>Gameplay:</strong>
-Board: The game board is an NxN grid. Each player has 1 row of game pieces, numbered 1 through N. Starting positions are on opposite edge rows, and the order of your pieces are chosen via double-blind pick.  N is chosen by the players before starting, and it is arbitrary. </br>
+Board: The game board is an NxN grid. Each player has 1 row of game pieces, numbered 1 through N. Starting positions are on opposite edge rows, and the order of your pieces are chosen via double-blind pick.  N is chosen by the players before starting, and it is arbitrary. </br></br>
 Movement: Pieces move and attack on adjacent squares and can attack on diagonal squares. Each time a piece is moved a square, the value of the piece is decreased by 1, until the turn is over where its value is restored. If you attack after moving extra squares, you will use the decreased value to attack. If an 8 piece moves three spaces, it would be acting as a 5 piece from that point until the end of your turn. Moving again reduces it to a 4 piece, etc. If a piece survives the end of your turn, the movement penalty is reversed. Pieces are eliminated if their value reaches 0 during an attack event.</br>
-Turns: Turns end when a player has made N moves in total. They can also decide finish their turn in fewer moves, at any point before they have made N moves. Attacks are also turns, but your piece does not move or take movement penalty an attack is made.</br>
-Normal attacks: Upon attack, the numbers subtract from each other. For example, if you attack a 2-piece with your 5-piece, the 2-piece will be eliminated, and the 5-piece becomes a 3 piece. However, if your 5-piece was originally an 8-piece which moved 3 spaces that turn, the difference of 3 will be added back to your piece after you end your turn, as long as your pieces value never reaches 0 on an attack. So for this example, if an 8-piece moved 3 spaces to attack a 2-piece as a 5-piece, the 2 is eliminated, and reduces the 5 to a 3. If the turn stops here, it will regenerate the value of its movement penalty of 3, and become a 6. If the turn continues and the piece reaches 0, it will be eliminated, and the movement penalty will not be restored.</br>
-Special attacks: If the sum of the numbers in an attack is equal to N, then the attacking piece does not lose any value, and the targeted piece is eliminated. So, if you are playing with N=9, you can attack a 6-piece with your 3-piece to eliminate the 6 without damaging your 3 piece. If the attacking piece has moved additional spaces, the distance-adjusted piece value is used. So again if N=9, you could move a 9 piece three spaces to attack a 3-piece, and your attacking piece would not be injured. If you ended your turn there, the piece would restore to a value of 9.</br>
+Turns: Turns end when a player has made N moves in total. They can also decide finish their turn in fewer moves, at any point before they have made N moves. Attacks are also turns, but your piece does not move or take movement penalty an attack is made.</br></br>
+Normal attacks: Upon attack, the numbers subtract from each other. For example, if you attack a 2-piece with your 5-piece, the 2-piece will be eliminated, and the 5-piece becomes a 3 piece. However, if your 5-piece was originally an 8-piece which moved 3 spaces that turn, the difference of 3 will be added back to your piece after you end your turn, as long as your pieces value never reaches 0 on an attack. So for this example, if an 8-piece moved 3 spaces to attack a 2-piece as a 5-piece, the 2 is eliminated, and reduces the 5 to a 3. If the turn stops here, it will regenerate the value of its movement penalty of 3, and become a 6. If the turn continues and the piece reaches 0, it will be eliminated, and the movement penalty will not be restored.</br></br>
+Special attacks: If the sum of the two pawns strengths (NOT max_strength) is equal to N, then the attacking piece does not lose any value, and the targeted piece takes damage regularly. So, if you are playing with N=9, you can attack a 6-piece with your 3-piece to eliminate the 6 without damaging your 3 piece. If the attacking piece has moved additional spaces, the distance-adjusted piece value is used. So again if N=9, you could move a 9 piece three spaces to attack a 3-piece, and your attacking piece would not be injured. If you ended your turn there, the piece would restore to a value of 9.</br></br>
 
 
 Win condition: 
