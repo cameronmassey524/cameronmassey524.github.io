@@ -154,6 +154,7 @@ class Tile {
 	  this.text = 0;
 	  this.selected = 0;
 	  this.penalty = 0;
+	  this.max_strength = 0;
   }
   
   eliminate()
@@ -205,6 +206,7 @@ class Tile {
 	  //[[this.col],[target.col]] =[[target.col],[this.col]];
 	  //[[this.row],[target.row]] =[[target.row],[this.row]];
 	  [[this.strength],[target.strength]] =[[target.strength],[this.strength]];
+	  [[this.max_strength],[target.max_strength]] =[[target.max_strength],[this.max_strength]];
 	  [[this.owner],[target.owner]] =[[target.owner],[this.owner]];
 	  [[this.selected],[target.selected]] =[[target.selected],[this.selected]];
 	  [[this.penalty],[target.penalty]] =[[target.penalty],[this.penalty]];
@@ -220,18 +222,30 @@ class Tile {
 	  if ((this.strength + target.strength)==board_size)
 	  {
 		  target.strength = target.strength - this.strength; //Perform special attack
+		  target.max_strength = target.max_strength - this.strength;
 	  }
 	  else //perform normal attack
 	  {
+		  [[this.max_strength],[target.max_strength]] = [[this.max_strength-target.strength],[target.max_strength-this.strength]];
 		  [[this.strength],[target.strength]] = [[this.strength-target.strength],[target.strength-this.strength]];
 	  }
 	  
-	  if (this.strength <= 0)
+	  if (this.strength < 0)
+	  {
+		  this.strength = 0;
+	  }
+	  
+	  if (target.strength < 0)
+	  {
+		  target.strength = 0;
+	  }
+	  
+	  if (this.max_strength <= 0)
 	  {
 		  this.eliminate();
 	  }
 
-	  if (target.strength <= 0)
+	  if (target.max_strength <= 0)
 	  {
 		  //target.owner = 0;
 		  //target.selected = 0;
@@ -333,8 +347,10 @@ class Board {
 		{
 			
 			this.mat[n][0].strength = parseInt(p1_order[n]);
+			this.mat[n][0].max_strength = parseInt(p1_order[n]);
 			this.mat[n][0].owner = 1;
 			this.mat[n][size-1].strength = parseInt(p2_order[n]);
+			this.mat[n][size-1].max_strength = parseInt(p2_order[n]);
 			this.mat[n][size-1].owner = 2;
 		}
 	
@@ -405,7 +421,7 @@ class Board {
 					{
 						this.mat[row][col].circ.setFillStyle(0x00b800);
 					}
-					this.mat[row][col].text = scene.add.text(x_pos-8, y_pos-16, this.mat[row][col].strength, { font: '32px Courier', fill: '#ffffff' });
+					this.mat[row][col].text = scene.add.text(x_pos-32, y_pos-16, this.mat[row][col].strength + "/" + this.mat[row][col].max_strength, { font: '32px Courier', fill: '#ffffff' });
 				}
 				else if (this.mat[row][col].owner == 2)
 				{
@@ -414,7 +430,7 @@ class Board {
 					{
 						this.mat[row][col].circ.setFillStyle(0x00b800);
 					}
-					this.mat[row][col].text = scene.add.text(x_pos-8, y_pos-16, this.mat[row][col].strength, { font: '32px Courier', fill: '#ffffff' });
+					this.mat[row][col].text = scene.add.text(x_pos-32, y_pos-16, this.mat[row][col].strength + "/" + this.mat[row][col].max_strength , { font: '32px Courier', fill: '#ffffff' });
 				}
 				
 				
