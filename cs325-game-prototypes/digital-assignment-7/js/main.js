@@ -367,11 +367,11 @@ class Board {
 				
 				if (this.mat[i][j].owner == 1)
 				{
-					total1 += this.mat[i][j].strength;
+					total1 += this.mat[i][j].max_strength;
 				}
 				else if (this.mat[i][j].owner == 2)
 				{
-					total2 += this.mat[i][j].strength;
+					total2 += this.mat[i][j].max_strength;
 				}
 				
 			}
