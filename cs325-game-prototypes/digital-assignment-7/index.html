@@ -26,9 +26,12 @@ body
 <li><strong>Notes:</strong> </br>
 1. Special Attacks happen if an the strengths of the attacker and defender equal N (the board size). The attacker takes no damage when attacking. </br>
 2. Move selected pieces using W-A-S-D </br>
-3. Attacking currently does not expend energy. This is a design choice to be tested. </br>
-4. The game currently allows you to select incorrect starting lines. If N=5, your starting line should be any combination of digits 1 through 5.</br>
-4.1 	Examples of legal starting lines for n=5: 12345, 54321, 15243, 13245.
+3. Attacking does not expend energy. </br>
+4. For a starting line to be legal, it CANNOT contain: digits less than 1, digits greater than board size, or duplicate digits. </br>
+4.1		This means that your starting line will contain only one of each integer from 1 to board size (1 to "n", where "n" is your board size. Hence "N!"). </br>
+4.2 	Examples of legal starting lines for a board size (n) equal to 5: 12345, 54321, 15243, 13245.</br>
+4.3 	Examples of illegal starting lines for a board size (n) equal to 5: 123456, 1234, 12340, 12355, 12346.</br>
+4.4		The pre-game prompts cannot be completed until proper values are selected for each one. Reason for rejection is reported in console. </br>
 </li>
 
 <li><strong>Originality:</strong>

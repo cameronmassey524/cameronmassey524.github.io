@@ -491,6 +491,8 @@ class Board {
 
 }
 
+
+
 var SceneA = new Phaser.Class({
 
     Extends: Phaser.Scene,
@@ -527,11 +529,21 @@ var SceneA = new Phaser.Class({
 		else if (event.keyCode === 13)
 		{
 			board_size = parseInt(textEntry.text);
-			textEntry.destroy();
-			prompt.destroy();
 
-			game.scene.start('sceneB');
-			listener.destroy();
+			
+			if ( (parseInt(textEntry.text) < 4) || (parseInt(textEntry.text) > 9) )
+			{
+				console.log("Board size must be between 4 and 9 inclusive.\n");
+				game.scene.start('sceneA');
+			}
+			else
+			{
+				game.scene.start('sceneB');
+				listener.destroy();
+				textEntry.destroy();
+				prompt.destroy();
+			}
+			
 
 		}
 		
@@ -541,6 +553,60 @@ var SceneA = new Phaser.Class({
     }
 
 });
+
+function validate_start(input)
+{
+	if (input.length > board_size)
+	{
+		console.log("You can only enter as many digits as the board size.\n");
+		return 0;
+	}
+	
+	var seen = [];
+	var this_input;
+	
+	for (var i=0; i<board_size; ++i)
+	{
+/* 		if ( !(input.includes(i.toString())) )
+		{
+			console.log("Your input is lacking at least this value: %d\n", i.toString());
+			game.scene.restart();
+		} */
+		
+		if (input.length != board_size)
+		{
+			console.log("The length of your input must be the same as the board size. (%d)\n", board_size);
+			return 0;
+		}
+		
+		this_input = input[i];
+		
+		if (parseInt(this_input) > board_size)
+		{
+			console.log("Your input cannot contain digits larger than the board size\n");
+			return 0;
+		}
+		
+		if (parseInt(this_input) < 1)
+		{
+			console.log("Your input cannot contain a zero digit.\n");
+			return 0;
+		}
+		
+		if (seen.includes(this_input))
+		{
+			//console.log("this_input: %d\n", parseInt(this_input));
+			console.log("Your input cannot contain duplicate digits\n");
+			return 0;
+		}
+		else
+		{
+			seen.push(this_input);
+		}
+		
+	}
+	return 1;
+}
 
 var SceneB = new Phaser.Class({
 
@@ -580,16 +646,27 @@ var SceneB = new Phaser.Class({
 		else if (event.keyCode === 13)
 		{
 			p1_order = textEntry.text;
-			textEntry.destroy();
-			prompt.destroy();
+
 			console.log(p1_order);
-			game.scene.start('sceneC');
-			listener.destroy();
 			
+			if (validate_start(textEntry.text))
+			{
+				game.scene.start('sceneC');
+				textEntry.destroy();
+				prompt.destroy();
+				listener.destroy();
+			}
+			else
+			{
+				game.scene.start('sceneB');
+			}
 		}
 		
 	})
+	
         
+
+		
     }
 
 });
@@ -630,11 +707,20 @@ var SceneC = new Phaser.Class({
 		else if (event.keyCode === 13)
 		{
 			p2_order = textEntry.text;
-			textEntry.destroy();
-			prompt.destroy();
+
 			console.log(p2_order);
-			game.scene.start('sceneD');
-			listener.destroy();
+			
+			if (validate_start(textEntry.text))
+			{
+				game.scene.start('sceneD');
+				textEntry.destroy();
+				prompt.destroy();
+				listener.destroy();
+			}
+			else
+			{
+				game.scene.start('sceneC');
+			}
 
 		}
 		
