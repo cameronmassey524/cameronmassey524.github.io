@@ -522,7 +522,7 @@ var SceneA = new Phaser.Class({
 		{
 			textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
 		}
-		else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90))
+		else if ((event.keyCode >= 48 && event.keyCode < 57))
 		{
 			textEntry.text += event.key;
 		}
@@ -639,7 +639,7 @@ var SceneB = new Phaser.Class({
 		{
 			textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
 		}
-		else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90))
+		else if ((event.keyCode >= 48 && event.keyCode < 57))
 		{
 			textEntry.text += event.key;
 		}
@@ -700,7 +700,7 @@ var SceneC = new Phaser.Class({
 		{
 			textEntry.text = textEntry.text.substr(0, textEntry.text.length - 1);
 		}
-		else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90))
+		else if ((event.keyCode >= 48 && event.keyCode < 57))
 		{
 			textEntry.text += event.key;
 		}
